@@ -12,5 +12,10 @@ export interface TodoResponse {
   limit: number;
 }
 
+export enum TodoOption {
+    TABLE= 'table',
+    DRAG= 'drag'
+}
+
 
 

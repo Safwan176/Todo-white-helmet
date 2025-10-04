@@ -13,6 +13,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
 
+// CDK Modules
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
 const materialModules = [
   MatCardModule,
   MatFormFieldModule,
@@ -24,7 +27,8 @@ const materialModules = [
   MatDividerModule,
   MatToolbarModule,
   MatMenuModule,
-  MatBadgeModule
+  MatBadgeModule,
+  DragDropModule
 ];
 
 @NgModule({

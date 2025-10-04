@@ -1,4 +1,23 @@
-@if (todos.length) {
+@if (isLoading) {
+        <div class="skeleton-todo-container">
+      <div class="skeleton-header">
+        <div class="skeleton-line skeleton-title"></div>
+      </div>
+      @for (item of [1,2,3,4]; track item) {
+        <div class="skeleton-todo-row">
+          <div class="skeleton-checkbox"></div>
+          <div class="skeleton-content">
+            <div class="skeleton-line skeleton-text-long"></div>
+          </div>
+          <div class="skeleton-actions">
+            <div class="skeleton-button"></div>
+            <div class="skeleton-button"></div>
+          </div>
+        </div>
+      }
+    </div>
+}
+@if (todos.length && !isLoading) {
   <div class="table-container" [class.loading-overlay]="isLoading">
     <table class="todos-table">
       <thead>

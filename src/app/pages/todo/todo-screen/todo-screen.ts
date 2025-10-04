@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Todo } from '../services/todo';
-import { TodoModel } from '../models/todo.model';
+import { TodoModel, TodoOption } from '../models/todo.model';
 
 @Component({
   selector: 'app-todo-screen',
@@ -15,6 +15,8 @@ export class TodoScreen implements OnInit {
   selectedTodo: TodoModel = {id: 0, todo: '', completed: false, userId: this.userId} as TodoModel;
   todos: TodoModel[] = [];
   columnNames: string[] = ['id', 'todo', 'completed', 'userId', 'actions'];
+  todoOption = TodoOption;
+  viewMode: TodoOption = TodoOption.TABLE;
   
   // Single loading state for all operations
   isLoading = false;
@@ -39,7 +41,7 @@ export class TodoScreen implements OnInit {
   }
 
   refreshTodos(): void {
-    console.log('🔄 Refreshing todos...');
+    this.isLoading = true;
     this.getTodos();
   }
 
@@ -50,6 +52,7 @@ export class TodoScreen implements OnInit {
   completeTodo(todo: TodoModel): void {
     // TODO: Open edit dialog or navigate to edit form
     this.selectedTodo = todo;
+    this.isLoading = true;
     const updatedTodo = {completed: true };
     this.todoService.completeTodo(updatedTodo, this.selectedTodo.id).subscribe({
       next: () => {
@@ -58,13 +61,26 @@ export class TodoScreen implements OnInit {
     });
   }
 
+  setViewMode(mode: TodoOption): void {
+    switch(mode) {
+      case TodoOption.TABLE:
+        this.viewMode = TodoOption.TABLE;
+        break;
+      case TodoOption.DRAG:
+        this.viewMode = TodoOption.DRAG;
+        break;
+    }
+  }
+
   deleteTodo(todo: TodoModel): void {
+    this.isLoading = true;
     this.todoService.deleteTodo(todo.id).subscribe({
       next: () => {
         this.getTodos(); // Refresh the list after deletion
       },
       error: (error) => {
         console.error('Error deleting todo:', error);
+        this.isLoading = false;
       }
     });
   }
@@ -76,13 +92,7 @@ export class TodoScreen implements OnInit {
   }
 
   addTodo(): void {
-  // if(this.selectedTodo.id > 0){
-  //   this.todoService.editTodo(this.selectedTodo).subscribe((response) => {
-  //       this.selectedTodo = {} as TodoModel; // Clear the input
-  //       this.getTodos();
-  //   })
-  //   return
-  // }
+    this.isLoading = true;
   this.selectedTodo.id = 0;
   this.selectedTodo.userId = this.userId
 
@@ -93,8 +103,25 @@ export class TodoScreen implements OnInit {
       },
       error: (error) => {
         console.error('Error adding todo:', error);
+        this.isLoading = false;
       }
     });
+  }
+
+  // Handle todo reordering from drag-drop component
+  onTodoReordered(reorderedTodos: TodoModel[]): void {
+    console.log('Todos reordered:', reorderedTodos);
+    this.todos = reorderedTodos;
+    
+    // Optional: Save the new order to the backend
+    // this.todoService.updateTodoOrder(reorderedTodos).subscribe();
+  }
+
+  // Handle edit todo from drag-drop component
+  editTodo(todo: TodoModel): void {
+    console.log('Edit todo:', todo.id);
+    this.selectedTodo = { ...todo };
+    // You could open a modal or navigate to edit form here
   }
 
 }

@@ -30,6 +30,9 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+// CDK Modules
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
 // Common Angular modules
 const angularModules = [
   CommonModule,
@@ -64,7 +67,8 @@ const materialModules = [
   MatRadioModule,
   MatChipsModule,
   MatAutocompleteModule,
-  MatTooltipModule
+  MatTooltipModule,
+  DragDropModule
 ];
 
 @NgModule({

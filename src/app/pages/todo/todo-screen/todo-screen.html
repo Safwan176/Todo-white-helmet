@@ -2,6 +2,26 @@
   <div class="header-section" [class.loading-overlay]="isLoading">
     <h2>My Todos</h2>
     <div class="header-actions">
+      <!-- View Mode Toggle -->
+      <div class="view-mode-toggle">
+        <button 
+          class="btn btn-mode" 
+          (click)="setViewMode(todoOption.TABLE)"
+          [disabled]="isLoading"
+          title="Table View">
+          <i class="fas fa-table"></i>
+          Table
+        </button>
+        <button 
+          class="btn btn-mode" 
+          (click)="setViewMode(todoOption.DRAG)"
+          [disabled]="isLoading"
+          title="Drag & Drop View">
+          <i class="fas fa-grip-vertical"></i>
+          Drag & Drop
+        </button>
+      </div>
+      
       <button 
         class="btn btn-secondary refresh-btn" 
         (click)="refreshTodos()"
@@ -71,32 +91,19 @@
   </div>
 
   <!-- Todo List Section -->
-  @if (isLoading) {
-    <!-- Skeleton Loading State -->
-    <div class="skeleton-todo-container">
-      <div class="skeleton-header">
-        <div class="skeleton-line skeleton-title"></div>
-      </div>
-      @for (item of [1,2,3,4]; track item) {
-        <div class="skeleton-todo-row">
-          <div class="skeleton-checkbox"></div>
-          <div class="skeleton-content">
-            <div class="skeleton-line skeleton-text-long"></div>
-          </div>
-          <div class="skeleton-actions">
-            <div class="skeleton-button"></div>
-            <div class="skeleton-button"></div>
-          </div>
-        </div>
-      }
-    </div>
-  } @else {
-    <app-todo-table 
-      [todos]="todos" 
-      [columnNames]="columnNames"
-      [isLoading]="isLoading"
-      (outputCompleteTodo)="completeTodo($event)"
-      (outputDeleteTodo)="deleteTodo($event)">
-    </app-todo-table>
-  }
+ 
+    @switch(viewMode) {
+        @case (todoOption.TABLE) {
+      <!-- Table View -->
+      <app-todo-table 
+        [todos]="todos" 
+        [columnNames]="columnNames"
+        [isLoading]="isLoading"
+        (outputCompleteTodo)="completeTodo($event)"
+        (outputDeleteTodo)="deleteTodo($event)">
+      </app-todo-table>
+        }
+        @case (todoOption.DRAG) {
+        }
+    }
 </div>
