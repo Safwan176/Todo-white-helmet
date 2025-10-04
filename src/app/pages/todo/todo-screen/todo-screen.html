@@ -104,6 +104,12 @@
       </app-todo-table>
         }
         @case (todoOption.DRAG) {
+          <app-todo-drap-drop 
+            [todos]="todos" 
+            [isLoading]="isLoading"
+            (outputCompleteTodo)="completeTodo($event)"
+            (outputDeleteTodo)="deleteTodo($event)">
+          </app-todo-drap-drop>
         }
     }
 </div>

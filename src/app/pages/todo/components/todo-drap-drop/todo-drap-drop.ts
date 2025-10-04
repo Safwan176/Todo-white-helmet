@@ -8,8 +8,57 @@ import { TodoModel } from '../../models/todo.model';
   templateUrl: './todo-drap-drop.html',
   styleUrl: './todo-drap-drop.scss'
 })
-export class TodoDrapDrop  {
+export class TodoDrapDrop implements OnInit {
   @Input() todos: TodoModel[] = [];
   @Input() isLoading: boolean = false;
+  @Output() outputCompleteTodo = new EventEmitter<TodoModel>();
+  @Output() outputDeleteTodo = new EventEmitter<TodoModel>();
+
+  get getCompletedTodos(): TodoModel[] {
+    return this.todos.filter(todo => todo.completed);
+  }
+
+  get getPendingTodos(): TodoModel[] {
+    return this.todos.filter(todo => !todo.completed);
+  }
+
+  ngOnInit(): void {
+    
+  }
+
+  drop(event: CdkDragDrop<TodoModel[]>) {
+    if (event.previousContainer === event.container) {
+      // Reordering within the same list
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      // Moving between lists
+      const todo = event.previousContainer.data[event.previousIndex];
+      
+      // Update completion status based on target list
+      const isMovingToCompleted = event.container.element.nativeElement.classList.contains('completed-list');
+      todo.completed = isMovingToCompleted;
+      
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+      
+      // Emit the completion event
+      this.outputCompleteTodo.emit(todo);
+    }
+  }
+
+  markAsComplete(todo: TodoModel): void {
+    todo.completed = true;
+    this.outputCompleteTodo.emit(todo);
+  }
+
+  markAsPending(todo: TodoModel): void {
+    todo.completed = false;
+    this.outputCompleteTodo.emit(todo);
+  }
+  
   
 }

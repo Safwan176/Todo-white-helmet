@@ -35,7 +35,6 @@ export class LoginScreen {
 
   // Handle form submission
   onLogin(): void {
-    debugger
     this.loginService.login(this.loginForm.value)
 
   }

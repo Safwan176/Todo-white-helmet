@@ -1,0 +1,146 @@
+<div class="todo-drag-drop-container">
+
+  <!-- Todo lists container -->
+   @if (isLoading) {
+       <div  class="todo-board">
+         <!-- Pending Todos Column -->
+         <div class="todo-column pending-column">
+           <div class="column-header">
+             <div class="header-content">
+               <i class="fas fa-clock header-icon"></i>
+               <h3>Pending</h3>
+               <span class="todo-count">{{ getPendingTodos.length }}</span>
+             </div>
+           </div>
+           
+           <div 
+             cdkDropList
+             #pendingList="cdkDropList"
+             [cdkDropListData]="getPendingTodos"
+             [cdkDropListConnectedTo]="[completedList]"
+             class="todo-list pending-list"
+             (cdkDropListDropped)="drop($event)">
+             
+             <div 
+               *ngFor="let todo of getPendingTodos" 
+               cdkDrag 
+               class="todo-item pending-item"
+               [class.cdk-drag-animating]="true">
+               
+               <div class="todo-card">
+                 <div class="card-header">
+                   <div class="todo-title">{{ todo.todo }}</div>
+                   <div cdkDragHandle class="drag-handle" title="Drag to move">
+                     <i class="fas fa-grip-vertical"></i>
+                   </div>
+                 </div>
+                 
+                 
+                 <div class="todo-footer">
+                   <div class="todo-meta">
+                     <span class="todo-priority priority-medium">
+                       <i class="fas fa-flag"></i>
+                       Medium
+                     </span>
+                   </div>
+                   <div class="todo-actions">
+                     <button class="action-btn complete-btn" (click)="markAsComplete(todo)" title="Mark as complete">
+                       <i class="fas fa-check"></i>
+                     </button>
+                   </div>
+                 </div>
+               </div>
+               
+               <!-- Drag preview -->
+               <div *cdkDragPreview class="drag-preview">
+                 <div class="preview-card">
+                   <div class="preview-title">{{ todo.todo }}</div>
+                   <div class="preview-badge">Moving...</div>
+                 </div>
+               </div>
+             </div>
+     
+             <!-- Empty state for pending -->
+             <div *ngIf="getPendingTodos.length === 0" class="empty-state">
+               <div class="empty-content">
+                 <i class="fas fa-tasks empty-icon"></i>
+                 <h4>No pending todos</h4>
+                 <p>All caught up! Add a new todo to get started.</p>
+               </div>
+             </div>
+           </div>
+         </div>
+     
+         <!-- Divider -->
+         <div class="column-divider"></div>
+     
+         <!-- Completed Todos Column -->
+         <div class="todo-column completed-column">
+           <div class="column-header">
+             <div class="header-content">
+               <i class="fas fa-check-circle header-icon"></i>
+               <h3>Completed</h3>
+               <span class="todo-count">{{ getCompletedTodos.length }}</span>
+             </div>
+           </div>
+           
+           <div 
+             cdkDropList
+             #completedList="cdkDropList"
+             [cdkDropListData]="getCompletedTodos"
+             [cdkDropListConnectedTo]="[pendingList]"
+             class="todo-list completed-list"
+             (cdkDropListDropped)="drop($event)">
+             
+             <div 
+               *ngFor="let todo of getCompletedTodos" 
+               cdkDrag 
+               class="todo-item completed-item"
+               [class.cdk-drag-animating]="true">
+               
+               <div class="todo-card completed-card">
+                 <div class="card-header">
+                   <div class="todo-title completed-title">{{ todo.todo }}</div>
+                   <div cdkDragHandle class="drag-handle" title="Drag to move">
+                     <i class="fas fa-grip-vertical"></i>
+                   </div>
+                 </div>
+                 
+                 
+                 <div class="todo-footer">
+                   <div class="todo-meta">
+                     <span class="todo-completed-status">
+                       <i class="fas fa-check-circle"></i>
+                       Completed
+                     </span>
+                   </div>
+                   <div class="todo-actions">
+                     <button class="action-btn reopen-btn" (click)="markAsPending(todo)" title="Mark as pending">
+                       <i class="fas fa-undo"></i>
+                     </button>
+                   </div>
+                 </div>
+               </div>
+               
+               <!-- Drag preview -->
+               <div *cdkDragPreview class="drag-preview">
+                 <div class="preview-card completed-preview">
+                   <div class="preview-title">{{ todo.todo }}</div>
+                   <div class="preview-badge">Moving...</div>
+                 </div>
+               </div>
+             </div>
+     
+             <!-- Empty state for completed -->
+             <div *ngIf="getCompletedTodos.length === 0" class="empty-state">
+               <div class="empty-content">
+                 <i class="fas fa-trophy empty-icon"></i>
+                 <h4>No completed todos</h4>
+                 <p>Complete some todos to see them here.</p>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+   }
+</div>
