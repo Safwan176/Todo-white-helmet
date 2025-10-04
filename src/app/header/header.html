@@ -6,19 +6,39 @@
   <span class="spacer"></span>
   
   <!-- Todo Menu Item -->
-  <button mat-button routerLink="/todos">
+  <button mat-button >
     <mat-icon>list</mat-icon>
     Todo
   </button>
   
   <!-- User Avatar with Menu -->
-  <button mat-icon-button [matMenuTriggerFor]="userMenu">
-    <mat-icon>account_circle</mat-icon>
+  <button 
+    mat-icon-button 
+    [matMenuTriggerFor]="userMenu" 
+    class="user-avatar"
+    [matTooltip]="'Logged in as: ' + user"
+    matTooltipPosition="below">
+    <div class="avatar-circle">
+      {{ getUserInitials() }}
+    </div>
   </button>
 </mat-toolbar>
 
 <!-- User Menu -->
 <mat-menu #userMenu="matMenu">
+  <div class="user-info-menu">
+    <div class="user-details">
+      <div class="user-avatar-large">
+        {{ getUserInitials() }}
+      </div>
+      <div class="user-text">
+        <h4>{{ user }}</h4>
+        <p>Todo App User</p>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+  </div>
+  
   <button mat-menu-item (click)="logout()">
     <mat-icon>logout</mat-icon>
     <span>Logout</span>

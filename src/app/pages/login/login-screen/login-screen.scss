@@ -1,53 +1,66 @@
+/* ===============================
+   LOGIN SCREEN CONSISTENT STYLES
+   =============================== */
+
 .login-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: var(--spacing-xl);
+  background: var(--gradient-primary);
 
   .login-card {
     width: 100%;
-    max-width: 400px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    border-radius: 16px;
+    max-width: 420px;
+    box-shadow: var(--shadow-xl);
+    border-radius: var(--radius-xl);
     overflow: hidden;
+    background: white;
 
     .login-header {
-      background: linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       color: white;
-      padding: 24px;
+      padding: var(--spacing-3xl) var(--spacing-2xl);
       text-align: center;
 
       .logo-section {
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 8px;
+        margin-bottom: var(--spacing-sm);
 
         .app-icon {
-          font-size: 32px;
-          width: 32px;
-          height: 32px;
-          margin-right: 12px;
+          font-size: var(--font-size-3xl);
+          width: 40px;
+          height: 40px;
+          margin-right: var(--spacing-md);
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: var(--radius-full);
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         mat-card-title {
           margin: 0;
-          font-size: 24px;
-          font-weight: 600;
+          font-size: var(--font-size-2xl);
+          font-weight: var(--font-weight-semibold);
         }
       }
 
       mat-card-subtitle {
         color: rgba(255, 255, 255, 0.8);
         margin: 0;
+        font-size: var(--font-size-sm);
       }
     }
 
     mat-card-content {
-      padding: 32px 24px;
+      padding: var(--spacing-3xl) var(--spacing-2xl);
 
       .login-form {
         display: flex;
