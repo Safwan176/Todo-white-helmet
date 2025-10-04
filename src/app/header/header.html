@@ -1,0 +1,26 @@
+<mat-toolbar color="primary">
+  <!-- App Title -->
+  <span class="app-title">Todo App</span>
+  
+  <!-- Spacer -->
+  <span class="spacer"></span>
+  
+  <!-- Todo Menu Item -->
+  <button mat-button routerLink="/todos">
+    <mat-icon>list</mat-icon>
+    Todo
+  </button>
+  
+  <!-- User Avatar with Menu -->
+  <button mat-icon-button [matMenuTriggerFor]="userMenu">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+</mat-toolbar>
+
+<!-- User Menu -->
+<mat-menu #userMenu="matMenu">
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>logout</mat-icon>
+    <span>Logout</span>
+  </button>
+</mat-menu>

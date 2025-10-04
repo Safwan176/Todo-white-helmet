@@ -1,1 +1,655 @@
+
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+body {
+  // Default the application to a light color theme. This can be changed to
+  // `dark` to enable the dark color theme, or to `light dark` to defer to the
+  // user's system settings.
+  color-scheme: light;
+
+  // Set a default background, font and text colors for the application using
+  // Angular Material's system-level CSS variables. Learn more about these
+  // variables at https://material.angular.dev/guide/system-variables
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  // Reset the user agent margin.
+  margin: 0;
+}
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* ===============================
+   FONT AWESOME ICON STYLES
+   =============================== */
+
+/* Custom icon styling for specific contexts */
+.add-icon {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.input-icon {
+  color: #666;
+  padding: 0 8px;
+  font-size: 16px;
+}
+
+.btn-icon {
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+.icon-close {
+  color: #dc3545;
+  font-size: 14px;
+  margin-right: 4px;
+}
+
+.action-buttons i {
+  font-size: 14px;
+}
+
+.action-buttons .fa-edit {
+  color: #007bff;
+}
+
+.action-buttons .fa-trash {
+  color: #dc3545;
+}
+
+.no-data i {
+  color: #6c757d;
+  margin-bottom: 16px;
+  display: block;
+  font-size: 48px;
+}
+
+/* Button icon hover effects */
+.btn:hover i {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+.btn:hover .fa-check {
+  transform: rotate(360deg);
+  transition: transform 0.3s ease;
+}
+
+.btn:hover .fa-plus {
+  transform: rotate(90deg);
+  transition: transform 0.3s ease;
+}
+
+/* ===============================
+   TODO COMPONENT STYLES
+   =============================== */
+
+.todo-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    h2 {
+      margin: 0;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+
+      .refresh-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+
+        i {
+          font-size: 14px;
+          transition: transform 0.5s ease;
+        }
+
+        &:hover {
+          background: linear-gradient(135deg, #5a6268 0%, #495057 100%);
+          transform: translateY(-1px);
+          box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+          
+          i {
+            transform: rotate(180deg);
+          }
+        }
+
+        &:active {
+          transform: translateY(0);
+          
+          i {
+            animation: spin 0.5s ease-in-out;
+          }
+        }
+      }
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+
+  /* Spin animation for refresh icon */
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* ===============================
+     ADD TODO SECTION STYLES
+     =============================== */
+  
+  .add-todo-section {
+    margin-bottom: 24px;
+
+    .add-todo-card {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e0e6ed;
+
+      .add-todo-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+
+        .add-icon {
+          font-size: 20px;
+          color: #28a745;
+        }
+
+        h3 {
+          margin: 0;
+          color: #333;
+          font-weight: 600;
+          font-size: 18px;
+        }
+      }
+
+      .add-todo-form {
+        .input-group {
+          display: flex;
+          gap: 12px;
+          align-items: flex-start;
+          flex-wrap: wrap;
+
+          .input-wrapper {
+            flex: 1;
+            position: relative;
+            min-width: 300px;
+
+            .input-icon {
+              position: absolute;
+              left: 12px;
+              top: 50%;
+              transform: translateY(-50%);
+              font-size: 16px;
+              color: #6c757d;
+            }
+
+            .todo-input {
+              width: 100%;
+              padding: 12px 12px 12px 40px;
+              border: 2px solid #e0e6ed;
+              border-radius: 8px;
+              font-size: 16px;
+              background: white;
+              transition: all 0.3s ease;
+              box-sizing: border-box;
+
+              &:focus {
+                outline: none;
+                border-color: #007bff;
+                box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+                background: #fafbfc;
+              }
+
+              &::placeholder {
+                color: #6c757d;
+                font-style: italic;
+              }
+            }
+          }
+
+          .add-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+
+            .btn-icon {
+              font-size: 14px;
+            }
+
+            &:hover:not(:disabled) {
+              background: linear-gradient(135deg, #218838 0%, #1ea080 100%);
+              transform: translateY(-1px);
+              box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+            }
+
+            &:disabled {
+              background: #6c757d;
+              cursor: not-allowed;
+              transform: none;
+              box-shadow: none;
+            }
+          }
+        }
+
+        .input-footer {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 8px;
+          padding: 0 4px;
+
+          .character-count {
+            color: #6c757d;
+            font-size: 12px;
+          }
+
+          .btn-clear {
+            background: none;
+            border: none;
+            color: #dc3545;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+
+            &:hover {
+              background: rgba(220, 53, 69, 0.1);
+              color: #c82333;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .table-container {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    .todos-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+
+      thead {
+        background-color: #f5f5f5;
+        
+        tr {
+          th {
+            padding: 16px 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          border-bottom: 1px solid #f0f0f0;
+          transition: background-color 0.2s;
+
+          &:hover {
+            background-color: #fafafa;
+          }
+
+          td {
+            padding: 12px;
+            vertical-align: middle;
+
+            &.completed {
+              text-decoration: line-through;
+              color: #999;
+              font-style: italic;
+            }
+          }
+        }
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+
+        .btn {
+          padding: 6px 12px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 14px;
+          transition: all 0.2s;
+
+          &.btn-primary {
+            background-color: #2196f3;
+            color: white;
+
+            &:hover {
+              background-color: #1976d2;
+            }
+          }
+
+          &.btn-secondary {
+            background-color: #6c757d;
+            color: white;
+
+            &:hover {
+              background-color: #5a6268;
+            }
+          }
+
+          &.btn-success {
+            background-color: #28a745;
+            color: white;
+
+            &:hover {
+              background-color: #218838;
+            }
+          }
+
+          &.btn-danger {
+            background-color: #f44336;
+            color: white;
+
+            &:hover {
+              background-color: #d32f2f;
+            }
+          }
+        }
+      }
+    }
+
+    .completed-chip {
+      background-color: #4caf50;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .pending-chip {
+      background-color: #ff9800;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 40px 20px;
+      color: #666;
+
+      mat-icon {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+        margin-bottom: 16px;
+        color: #ddd;
+      }
+
+      p {
+        margin: 0;
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+/* ===============================
+   RESPONSIVE DESIGN
+   =============================== */
+
+@media (max-width: 768px) {
+  .todo-container {
+    padding: 16px;
+
+    .header-section {
+      flex-direction: column;
+      gap: 16px;
+      align-items: stretch;
+
+      button {
+        justify-content: center;
+      }
+    }
+
+    .todos-table {
+      font-size: 14px;
+
+      .action-buttons {
+        flex-direction: column;
+        gap: 2px;
+
+        .btn {
+          width: 32px;
+          height: 32px;
+          padding: 4px;
+        }
+      }
+    }
+  }
+}
+
+/* ===============================
+   SKELETON LOADING STYLES
+   =============================== */
+
+/* Skeleton Animation */
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+/* Base Skeleton Styles */
+.skeleton-line {
+  display: inline-block;
+  height: 1em;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+  
+  &.skeleton-title {
+    width: 120px;
+    height: 24px;
+    margin-bottom: 16px;
+  }
+  
+  &.skeleton-text-long {
+    width: 200px;
+    height: 16px;
+  }
+  
+  &.skeleton-text-short {
+    width: 80px;
+    height: 16px;
+  }
+}
+
+.skeleton-checkbox {
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.skeleton-button {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+/* Skeleton Container Styles */
+.skeleton-todo-container {
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  margin-top: 20px;
+  
+  .skeleton-header {
+    margin-bottom: 20px;
+  }
+}
+
+.skeleton-todo-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  .skeleton-content {
+    flex: 1;
+  }
+  
+  .skeleton-actions {
+    display: flex;
+    gap: 8px;
+  }
+}
+
+/* Loading Overlay */
+.loading-overlay {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.6;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.3);
+    z-index: 1;
+  }
+}
+
+.loading-state {
+  .loading-overlay {
+    opacity: 0.7;
+  }
+}
+
+/* Spinner Animation for Loading States */
+.fa-spinner.fa-spin {
+  animation: fa-spin 1s infinite linear;
+}
+
+@keyframes fa-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Dark mode skeleton styles */
+@media (prefers-color-scheme: dark) {
+  .skeleton-line,
+  .skeleton-checkbox,
+  .skeleton-button {
+    background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+    background-size: 200px 100%;
+  }
+  
+  .skeleton-todo-container {
+    background: #1e1e1e;
+  }
+  
+  .skeleton-todo-row {
+    border-bottom-color: #3a3a3a;
+  }
+  
+  .loading-overlay::after {
+    background: rgba(0, 0, 0, 0.3);
+  }
+}

@@ -1,0 +1,224 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+  .login-card {
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    overflow: hidden;
+
+    .login-header {
+      background: linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%);
+      color: white;
+      padding: 24px;
+      text-align: center;
+
+      .logo-section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 8px;
+
+        .app-icon {
+          font-size: 32px;
+          width: 32px;
+          height: 32px;
+          margin-right: 12px;
+        }
+
+        mat-card-title {
+          margin: 0;
+          font-size: 24px;
+          font-weight: 600;
+        }
+      }
+
+      mat-card-subtitle {
+        color: rgba(255, 255, 255, 0.8);
+        margin: 0;
+      }
+    }
+
+    mat-card-content {
+      padding: 32px 24px;
+
+      .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        .full-width {
+          width: 100%;
+        }
+
+        .form-options {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin: 8px 0;
+
+          .forgot-link {
+            font-size: 14px;
+            text-decoration: none;
+          }
+        }
+
+        .login-error {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          background-color: rgba(244, 67, 54, 0.1);
+          border: 1px solid rgba(244, 67, 54, 0.3);
+          border-radius: 8px;
+          padding: 12px;
+          color: #d32f2f;
+          font-size: 14px;
+
+          mat-icon {
+            font-size: 18px;
+            width: 18px;
+            height: 18px;
+          }
+        }
+
+        .login-button {
+          width: 100%;
+          height: 48px;
+          font-size: 16px;
+          font-weight: 500;
+          margin-top: 16px;
+          border-radius: 8px;
+
+          .loading-icon {
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+          }
+        }
+      }
+    }
+
+    .login-actions {
+      padding: 16px 24px;
+      background-color: #fafafa;
+      border-top: 1px solid #e0e0e0;
+
+      .signup-section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 14px;
+
+        span {
+          color: #666;
+        }
+      }
+    }
+  }
+
+  .additional-options {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 24px;
+
+    mat-divider {
+      position: relative;
+      margin: 24px 0;
+    }
+
+    .divider-text {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      padding: 0 16px;
+      color: #666;
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .social-login {
+      display: flex;
+      gap: 12px;
+
+      .social-button {
+        flex: 1;
+        height: 44px;
+        border-radius: 8px;
+        font-weight: 500;
+
+        mat-icon {
+          margin-right: 8px;
+        }
+
+        &.google-button {
+          border-color: #db4437;
+          color: #db4437;
+
+          &:hover {
+            background-color: rgba(219, 68, 55, 0.04);
+          }
+        }
+
+        &.microsoft-button {
+          border-color: #0078d4;
+          color: #0078d4;
+
+          &:hover {
+            background-color: rgba(0, 120, 212, 0.04);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Loading animation
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Responsive design
+@media (max-width: 480px) {
+  .login-container {
+    padding: 16px;
+
+    .login-card {
+      mat-card-content {
+        padding: 24px 16px;
+      }
+
+      .login-actions {
+        padding: 16px;
+      }
+    }
+
+    .additional-options {
+      .social-login {
+        flex-direction: column;
+      }
+    }
+  }
+}
+
+// Custom snackbar styles
+::ng-deep {
+  .success-snackbar {
+    background-color: #4caf50 !important;
+    color: white !important;
+  }
+
+  .error-snackbar {
+    background-color: #f44336 !important;
+    color: white !important;
+  }
+}

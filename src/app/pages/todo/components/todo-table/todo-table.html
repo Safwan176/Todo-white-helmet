@@ -1,0 +1,62 @@
+@if (todos.length) {
+  <div class="table-container" [class.loading-overlay]="isLoading">
+    <table class="todos-table">
+      <thead>
+        @for (item of columnNames; track $index) {
+          <th>{{item}}</th>
+        }
+        <tr>
+        </tr>
+      </thead>
+      <tbody>
+        @for (todo of todos; track $index) {
+        <tr>
+          <td>{{todo.id}}</td>
+          <td [class.completed]="todo.completed">{{todo.todo}}</td>
+          <td>
+            <span [class]="todo.completed ? 'completed-chip' : 'pending-chip'">
+              {{todo.completed ? 'Completed' : 'Pending'}}
+            </span>
+          </td>
+          <td>{{todo.userId}}</td>
+          <td>
+            <div class="action-buttons">
+              <button 
+                class="btn btn-success" 
+                (click)="completeTodo(todo)"
+                [disabled]="isLoading"
+                title="Toggle Complete">
+                @if (isLoading) {
+                  <i class="fas fa-spinner fa-spin"></i>
+                } @else {
+                  <i class="fas fa-check"></i>
+                }
+              </button>
+              
+              <button 
+                class="btn btn-danger" 
+                (click)="deleteTodo(todo)"
+                [disabled]="isLoading"
+                title="Delete Todo">
+                @if (isLoading) {
+                  <i class="fas fa-spinner fa-spin"></i>
+                } @else {
+                  <i class="fas fa-trash"></i>
+                }
+              </button>
+            </div>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+
+    <!-- No data message -->
+    @if (todos.length === 0) {
+      <div class="no-data">
+        <i class="fas fa-clipboard-list"></i>
+        <p>No todos found. Add your first todo!</p>
+      </div>
+    }
+  </div>
+}

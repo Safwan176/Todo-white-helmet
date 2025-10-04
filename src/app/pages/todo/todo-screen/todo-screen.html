@@ -1,0 +1,102 @@
+<div class="todo-container" [class.loading-state]="isLoading">
+  <div class="header-section" [class.loading-overlay]="isLoading">
+    <h2>My Todos</h2>
+    <div class="header-actions">
+      <button 
+        class="btn btn-secondary refresh-btn" 
+        (click)="refreshTodos()"
+        [disabled]="isLoading"
+        title="Refresh Todo List">
+        @if (isLoading) {
+          <i class="fas fa-spinner fa-spin"></i>
+        } @else {
+          <i class="fas fa-sync-alt"></i>
+        }
+        Refresh
+      </button>
+    </div>
+  </div>
+
+  <!-- Add Todo Section -->
+  <div class="add-todo-section" [class.loading-overlay]="isLoading">
+    <div class="add-todo-card">
+      <div class="add-todo-header">
+        <i class="add-icon fas fa-plus"></i>
+        <h3>Add New Todo</h3>
+      </div>
+      
+      <div class="add-todo-form">
+        <div class="input-group">
+          <div class="input-wrapper">
+            <i class="input-icon fas fa-pencil-alt"></i>
+            <input 
+              type="text" 
+              placeholder="What needs to be done?" 
+              class="todo-input"
+              [(ngModel)]="selectedTodo.todo"
+              (keypress)="onKeyPress($event)"
+              [disabled]="isLoading"
+              maxlength="200">
+          </div>
+          <button 
+            class="btn btn-primary add-btn" 
+            (click)="addTodo()"
+            [disabled]="!selectedTodo.todo.trim() || isLoading">
+            @if (isLoading) {
+              <i class="btn-icon fas fa-spinner fa-spin"></i>
+            } @else {
+              <i class="btn-icon fas fa-check"></i>
+            }
+            Add Todo
+          </button>
+        </div>
+        
+        <div class="input-footer">
+          <small class="character-count">
+            {{selectedTodo.todo.length || 0}}/200 characters
+          </small>
+          @if (selectedTodo.todo.trim()) {
+            <button 
+              class="btn btn-clear" 
+              (click)="clearInput()"
+              [disabled]="isLoading"
+              title="Clear input">
+              <i class="icon-close fas fa-times"></i>
+              Clear
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Todo List Section -->
+  @if (isLoading) {
+    <!-- Skeleton Loading State -->
+    <div class="skeleton-todo-container">
+      <div class="skeleton-header">
+        <div class="skeleton-line skeleton-title"></div>
+      </div>
+      @for (item of [1,2,3,4]; track item) {
+        <div class="skeleton-todo-row">
+          <div class="skeleton-checkbox"></div>
+          <div class="skeleton-content">
+            <div class="skeleton-line skeleton-text-long"></div>
+          </div>
+          <div class="skeleton-actions">
+            <div class="skeleton-button"></div>
+            <div class="skeleton-button"></div>
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <app-todo-table 
+      [todos]="todos" 
+      [columnNames]="columnNames"
+      [isLoading]="isLoading"
+      (outputCompleteTodo)="completeTodo($event)"
+      (outputDeleteTodo)="deleteTodo($event)">
+    </app-todo-table>
+  }
+</div>
