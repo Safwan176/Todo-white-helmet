@@ -19,7 +19,7 @@ export class TodoScreen implements OnInit {
   todos: TodoModel[] = [];
   columnNames: string[] = ['id', 'todo', 'completed', 'actions'];
   todoOption = TodoOption;
-  viewMode: TodoOption = TodoOption.TABLE;
+  viewMode: TodoOption = TodoOption.DRAG;
   
 
   ngOnInit(): void {
