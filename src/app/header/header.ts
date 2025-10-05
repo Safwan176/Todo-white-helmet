@@ -8,18 +8,33 @@ import { Router } from '@angular/router';
   styleUrl: './header.scss'
 })
 export class Header implements OnInit{
-  user = localStorage.getItem('user');
+  user = 'Guest';
+  userEmail = '';
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    // Initialization logic can go here if needed
-    this.user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!).username : 'Guest';
+    this.loadUserData();
+  }
+
+  private loadUserData(): void {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      try {
+        const parsedUser = JSON.parse(userData);
+        this.user = parsedUser.username || parsedUser.firstName || 'Guest';
+        this.userEmail = parsedUser.email || 'user@todoapp.com';
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+        this.user = 'Guest';
+        this.userEmail = 'user@todoapp.com';
+      }
+    }
   }
 
   getUserInitials(): string {
     if (!this.user || this.user === 'Guest') {
-      return 'G';
+      return 'GA';
     }
     
     // Split username by spaces or common separators
@@ -33,6 +48,12 @@ export class Header implements OnInit{
       return this.user.toString().substring(0, 2).toUpperCase();
     }
   }
+
+  getUserEmail(): string {
+    return this.userEmail;
+  }
+
+
 
   logout(): void {
     // Clear all authentication data

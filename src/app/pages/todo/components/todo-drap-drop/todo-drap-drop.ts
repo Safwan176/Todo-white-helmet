@@ -45,12 +45,13 @@ export class TodoDrapDrop implements OnInit {
       );
       
       // Emit the completion event to update the backend
-      this.outputCompleteTodo.emit(todo);
+      // this.outputCompleteTodo.emit(todo);
     }
   }
 
   markAsComplete(todo: TodoModel): void {
-    this.outputCompleteTodo.emit(todo);
+    todo.completed = !todo.completed;
+    // this.outputCompleteTodo.emit(todo);
   }
 
   deleteTodo(todo: TodoModel): void {

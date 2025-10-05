@@ -1,46 +1,73 @@
-<mat-toolbar color="primary">
-  <!-- App Title -->
-  <span class="app-title">Todo App</span>
-  
-  <!-- Spacer -->
-  <span class="spacer"></span>
-  
-  <!-- Todo Menu Item -->
-  <button mat-button >
-    <mat-icon>list</mat-icon>
-    Todo
-  </button>
-  
-  <!-- User Avatar with Menu -->
-  <button 
-    mat-icon-button 
-    [matMenuTriggerFor]="userMenu" 
-    class="user-avatar"
-    [matTooltip]="'Logged in as: ' + user"
-    matTooltipPosition="below">
-    <div class="avatar-circle">
-      {{ getUserInitials() }}
+<header class="app-header">
+  <mat-toolbar color="primary" role="banner">
+    <!-- Brand Section -->
+    <div class="brand-section">
+      <div class="brand-icon">
+        <i class="fas fa-tasks" aria-hidden="true"></i>
+      </div>
+      <span class="app-title">TodoApp</span>
+      <span class="brand-tagline">Organize your life</span>
     </div>
-  </button>
-</mat-toolbar>
+    
+    <!-- Spacer -->
+    <span class="spacer"></span>
+    
+    
+    <!-- User Section -->
+    <div class="user-section">
+      <button 
+        mat-icon-button 
+        [matMenuTriggerFor]="userMenu" 
+        class="user-avatar-btn"
+        [matTooltip]="'User menu for ' + user"
+        matTooltipPosition="below"
+        [attr.aria-label]="'Open user menu for ' + user"
+        aria-haspopup="true">
+        <div class="user-avatar">
+          <span class="user-initials" [attr.aria-label]="'User initials: ' + getUserInitials()">
+            {{ getUserInitials() }}
+          </span>
+          <div class="online-indicator" title="Online"></div>
+        </div>
+      </button>
+    </div>
+  </mat-toolbar>
+</header>
 
-<!-- User Menu -->
-<mat-menu #userMenu="matMenu">
-  <div class="user-info-menu">
-    <div class="user-details">
-      <div class="user-avatar-large">
-        {{ getUserInitials() }}
+<!-- Enhanced User Menu -->
+<mat-menu #userMenu="matMenu" class="user-menu" xPosition="before">
+  <!-- User Profile Section -->
+  <div class="user-profile-section" mat-menu-item disabled>
+    <div class="profile-info">
+      <div class="profile-avatar">
+        <span class="profile-initials">{{ getUserInitials() }}</span>
+        <div class="status-indicator online"></div>
       </div>
-      <div class="user-text">
-        <h4>{{ user }}</h4>
-        <p>Todo App User</p>
+      <div class="profile-details">
+        <h4 class="profile-name">{{ user }}</h4>
+        <p class="profile-email">{{ getUserEmail() }}</p>
+        <!-- <div class="profile-stats">
+          <span class="stat-item">
+            <mat-icon class="stat-icon">task_alt</mat-icon>
+            <span class="stat-value">{{ getTodoCount() }}</span>
+            <span class="stat-label">todos</span>
+          </span>
+        </div> -->
       </div>
     </div>
-    <mat-divider></mat-divider>
   </div>
   
-  <button mat-menu-item (click)="logout()">
-    <mat-icon>logout</mat-icon>
-    <span>Logout</span>
-  </button>
+  <mat-divider></mat-divider>
+  
+ 
+  
+  <mat-divider></mat-divider>
+  
+  <!-- Logout Section -->
+  <div class="logout-section">
+    <button mat-menu-item class="logout-btn" (click)="logout()" [attr.aria-label]="'Logout from account'">
+      <mat-icon class="logout-icon">logout</mat-icon>
+      <span class="logout-text">Sign Out</span>
+    </button>
+  </div>
 </mat-menu>

@@ -1,3 +1,4 @@
 <app-loader></app-loader>
-<app-header></app-header>
+<!-- Only show header when not on login page and user is authenticated -->
+<app-header *ngIf="shouldShowHeader()"></app-header>
 <router-outlet />
