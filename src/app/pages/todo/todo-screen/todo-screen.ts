@@ -17,7 +17,7 @@ export class TodoScreen implements OnInit {
   userId: number = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!).id : 0;
   selectedTodo: TodoModel = {id: 0, todo: '', completed: false, userId: this.userId} as TodoModel;
   todos: TodoModel[] = [];
-  columnNames: string[] = ['id', 'todo', 'completed', 'userId', 'actions'];
+  columnNames: string[] = ['id', 'todo', 'completed', 'actions'];
   todoOption = TodoOption;
   viewMode: TodoOption = TodoOption.TABLE;
   
@@ -47,13 +47,18 @@ export class TodoScreen implements OnInit {
   }
 
   completeTodo(todo: TodoModel): void {
-    // TODO: Open edit dialog or navigate to edit form
-    this.selectedTodo = todo;
-    const updatedTodo = {completed: true };
-    this.todoService.completeTodo(updatedTodo, this.selectedTodo.id).subscribe({
+    // Toggle the completion status
+    todo.completed = !todo.completed;
+    
+    const updatedTodo = { completed: todo.completed };
+    this.todoService.completeTodo(updatedTodo, todo.id).subscribe({
       next: () => {
-        // this.getTodos();
-        todo.completed = true;
+        console.log('Todo completion status updated successfully');
+      },
+      error: (error) => {
+        // Revert the change if API call fails
+        todo.completed = !todo.completed;
+        console.error('Error updating todo:', error);
       }
     });
   }
@@ -79,10 +84,18 @@ export class TodoScreen implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const index = this.todos.findIndex(t => t.id === todo.id);
-        if (index > -1) {
-          this.todos.splice(index, 1);
-        }
+        this.todoService.deleteTodo(todo.id).subscribe({
+          next: () => {
+            const index = this.todos.findIndex(t => t.id === todo.id);
+            if (index > -1) {
+              this.todos.splice(index, 1);
+            }
+            console.log('Todo deleted successfully');
+          },
+          error: (error) => {
+            console.error('Error deleting todo:', error);
+          }
+        });
       }
     });
   }
@@ -94,12 +107,42 @@ export class TodoScreen implements OnInit {
   }
 
   addTodo(): void {
-    const newTodo: TodoModel = {
-      ...this.selectedTodo,
-      id: new Date().getTime(), // Temporary unique ID
+    if (!this.selectedTodo.todo.trim()) {
+      return;
+    }
+
+    const newTodoData: Partial<TodoModel> = {
+      todo: this.selectedTodo.todo,
+      completed: false,
+      userId: this.userId
     };
-    this.todos.unshift(newTodo);
-    this.selectedTodo = {id: 0, todo: '', completed: false, userId: this.userId} as TodoModel;
+
+    this.todoService.addTodo(newTodoData as TodoModel).subscribe({
+      next: (response) => {
+        // Add the new todo with the response ID to the beginning of the list
+        const newTodo: TodoModel = {
+          id: response.id || new Date().getTime(),
+          todo: this.selectedTodo.todo,
+          completed: false,
+          userId: this.userId
+        };
+        this.todos.unshift(newTodo);
+        this.selectedTodo = {id: 0, todo: '', completed: false, userId: this.userId} as TodoModel;
+        console.log('Todo added successfully');
+      },
+      error: (error) => {
+        console.error('Error adding todo:', error);
+        // Fallback to local addition if API fails
+        const newTodo: TodoModel = {
+          id: new Date().getTime(),
+          todo: this.selectedTodo.todo,
+          completed: false,
+          userId: this.userId
+        };
+        this.todos.unshift(newTodo);
+        this.selectedTodo = {id: 0, todo: '', completed: false, userId: this.userId} as TodoModel;
+      }
+    });
   }
 
   // Handle edit todo from drag-drop component

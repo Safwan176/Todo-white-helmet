@@ -1,5 +1,5 @@
 /* ===============================
-   LOGIN SCREEN CONSISTENT STYLES
+   LOGIN SCREEN COMPONENT STYLES
    =============================== */
 
 .login-container {
@@ -14,211 +14,67 @@
   .login-card {
     width: 100%;
     max-width: 420px;
-    box-shadow: var(--shadow-xl);
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    background: white;
+    animation: fadeIn 0.5s ease-out;
 
-    .login-header {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: white;
-      padding: var(--spacing-3xl) var(--spacing-2xl);
-      text-align: center;
-
-      .logo-section {
-        display: flex;
+    .logo-section {
+      .app-icon-wrapper {
+        display: inline-flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: var(--spacing-sm);
+        width: 64px;
+        height: 64px;
+        background: var(--gradient-primary);
+        border-radius: var(--radius-full);
+        margin-bottom: var(--spacing-lg);
+        box-shadow: var(--shadow-lg);
 
         .app-icon {
-          font-size: var(--font-size-3xl);
-          width: 40px;
-          height: 40px;
-          margin-right: var(--spacing-md);
-          background: rgba(255, 255, 255, 0.2);
-          border-radius: var(--radius-full);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        mat-card-title {
-          margin: 0;
           font-size: var(--font-size-2xl);
-          font-weight: var(--font-weight-semibold);
+          color: white;
         }
       }
 
-      mat-card-subtitle {
-        color: rgba(255, 255, 255, 0.8);
+      .card-title {
+        margin-bottom: var(--spacing-sm);
+        color: var(--gray-900);
+      }
+
+      .card-subtitle {
+        color: var(--gray-600);
         margin: 0;
-        font-size: var(--font-size-sm);
       }
     }
 
-    mat-card-content {
-      padding: var(--spacing-3xl) var(--spacing-2xl);
-
-      .login-form {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-
-        .full-width {
-          width: 100%;
-        }
-
-        .form-options {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin: 8px 0;
-
-          .forgot-link {
-            font-size: 14px;
-            text-decoration: none;
-          }
-        }
-
-        .login-error {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          background-color: rgba(244, 67, 54, 0.1);
-          border: 1px solid rgba(244, 67, 54, 0.3);
-          border-radius: 8px;
-          padding: 12px;
-          color: #d32f2f;
-          font-size: 14px;
-
-          mat-icon {
-            font-size: 18px;
-            width: 18px;
-            height: 18px;
-          }
-        }
-
-        .login-button {
-          width: 100%;
-          height: 48px;
-          font-size: 16px;
-          font-weight: 500;
-          margin-top: 16px;
-          border-radius: 8px;
-
-          .loading-icon {
-            animation: spin 1s linear infinite;
-            margin-right: 8px;
-          }
-        }
+    .login-form {
+      .form-group {
+        margin-bottom: var(--spacing-2xl);
       }
-    }
 
-    .login-actions {
-      padding: 16px 24px;
-      background-color: #fafafa;
-      border-top: 1px solid #e0e0e0;
+      mat-form-field {
+        width: 100%;
+        margin-bottom: var(--spacing-lg);
 
-      .signup-section {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        font-size: 14px;
-
-        span {
-          color: #666;
-        }
-      }
-    }
-  }
-
-  .additional-options {
-    width: 100%;
-    max-width: 400px;
-    margin-top: 24px;
-
-    mat-divider {
-      position: relative;
-      margin: 24px 0;
-    }
-
-    .divider-text {
-      position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: white;
-      padding: 0 16px;
-      color: #666;
-      font-size: 14px;
-      margin: 0;
-    }
-
-    .social-login {
-      display: flex;
-      gap: 12px;
-
-      .social-button {
-        flex: 1;
-        height: 44px;
-        border-radius: 8px;
-        font-weight: 500;
-
-        mat-icon {
-          margin-right: 8px;
-        }
-
-        &.google-button {
-          border-color: #db4437;
-          color: #db4437;
-
-          &:hover {
-            background-color: rgba(219, 68, 55, 0.04);
+        &.mat-form-field-appearance-outline {
+          .mat-form-field-outline {
+            border-radius: var(--radius-md);
           }
-        }
 
-        &.microsoft-button {
-          border-color: #0078d4;
-          color: #0078d4;
-
-          &:hover {
-            background-color: rgba(0, 120, 212, 0.04);
+          &.mat-focused .mat-form-field-outline-thick {
+            border-color: var(--primary-color);
           }
         }
       }
     }
   }
-}
-
-// Loading animation
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
 }
 
 // Responsive design
 @media (max-width: 480px) {
   .login-container {
-    padding: 16px;
+    padding: var(--spacing-lg);
 
     .login-card {
-      mat-card-content {
-        padding: 24px 16px;
-      }
-
-      .login-actions {
-        padding: 16px;
-      }
-    }
-
-    .additional-options {
-      .social-login {
-        flex-direction: column;
-      }
+      max-width: 100%;
     }
   }
 }

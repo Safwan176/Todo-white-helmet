@@ -44,24 +44,16 @@ export class TodoDrapDrop implements OnInit {
         event.currentIndex
       );
       
-      // Emit the completion event
-      // this.outputCompleteTodo.emit(todo);
+      // Emit the completion event to update the backend
+      this.outputCompleteTodo.emit(todo);
     }
   }
 
   markAsComplete(todo: TodoModel): void {
-    todo.completed = true;
-    this.outputCompleteTodo.emit(todo);
-  }
-
-  markAsPending(todo: TodoModel): void {
-    todo.completed = false;
     this.outputCompleteTodo.emit(todo);
   }
 
   deleteTodo(todo: TodoModel): void {
     this.outputDeleteTodo.emit(todo);
   }
-  
-  
 }

@@ -1,60 +1,72 @@
 <div class="todo-container">
-  <div class="header-section">
-    <h2>My Todos</h2>
-    <div class="header-actions">
-      <!-- View Mode Toggle -->
-      <div class="view-mode-toggle">
-        <button 
-          class="btn btn-mode" 
-          (click)="setViewMode(todoOption.TABLE)"
-          title="Table View">
-          <i class="fas fa-table"></i>
-          Table
-        </button>
-        <button 
-          class="btn btn-mode" 
-          (click)="setViewMode(todoOption.DRAG)"
-          title="Drag & Drop View">
-          <i class="fas fa-grip-vertical"></i>
-          Drag & Drop
-        </button>
+  <div class="header-section card">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2 class="m-0">My Todos</h2>
+        <div class="header-actions d-flex align-items-center gap-3">
+          <!-- View Mode Toggle - moved to be more prominent on the right -->
+          <div class="btn-group view-mode-toggle">
+            <button 
+              class="btn btn-outline-secondary btn-sm" 
+              [class.btn-primary]="viewMode === todoOption.TABLE"
+              [class.btn-outline-secondary]="viewMode !== todoOption.TABLE"
+              (click)="setViewMode(todoOption.TABLE)"
+              title="Table View">
+              <i class="fas fa-table"></i>
+              Table
+            </button>
+            <button 
+              class="btn btn-outline-secondary btn-sm" 
+              [class.btn-primary]="viewMode === todoOption.DRAG"
+              [class.btn-outline-secondary]="viewMode !== todoOption.DRAG"
+              (click)="setViewMode(todoOption.DRAG)"
+              title="Drag & Drop View">
+              <i class="fas fa-grip-vertical"></i>
+              Drag & Drop
+            </button>
+          </div>
+          
+          <button 
+            class="btn btn-secondary btn-sm" 
+            (click)="refreshTodos()"
+            title="Refresh Todo List">
+              <i class="fas fa-sync-alt"></i>
+            Refresh
+          </button>
+        </div>
       </div>
-      
-      <button 
-        class="btn btn-secondary refresh-btn" 
-        (click)="refreshTodos()"
-        title="Refresh Todo List">
-          <i class="fas fa-sync-alt"></i>
-        Refresh
-      </button>
     </div>
   </div>
 
   <!-- Add Todo Section -->
   <div class="add-todo-section">
-    <div class="add-todo-card">
-      <div class="add-todo-header">
-        <i class="add-icon fas fa-plus"></i>
-        <h3>Add New Todo</h3>
+    <div class="card card-elevated">
+      <div class="card-header">
+        <div class="d-flex align-items-center gap-3">
+          <div class="chip chip-success">
+            <i class="fas fa-plus"></i>
+          </div>
+          <h3 class="m-0">Add New Todo</h3>
+        </div>
       </div>
       
-      <div class="add-todo-form">
+      <div class="card-body">
         <div class="input-group">
           <div class="input-wrapper">
             <i class="input-icon fas fa-pencil-alt"></i>
             <input 
               type="text" 
               placeholder="What needs to be done?" 
-              class="todo-input"
+              class="form-input"
               [(ngModel)]="selectedTodo.todo"
               (keypress)="onKeyPress($event)"
               maxlength="200">
           </div>
           <button 
-            class="btn btn-primary add-btn" 
+            class="btn btn-primary" 
             (click)="addTodo()"
             [disabled]="!selectedTodo.todo.trim()">
-              <i class="btn-icon fas fa-check"></i>
+              <i class="fas fa-check"></i>
             Add Todo
           </button>
         </div>

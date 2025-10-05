@@ -1,0 +1,63 @@
+/* ===============================
+   CONFIRMATION MODAL STYLES
+   =============================== */
+
+.confirmation-modal {
+  padding: var(--spacing-2xl);
+  min-width: 400px;
+  max-width: 500px;
+
+  .modal-header {
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 1px solid var(--gray-200);
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+
+    .modal-title {
+      margin: 0;
+      color: var(--text-primary);
+      font-weight: var(--font-weight-semibold);
+      font-size: var(--font-size-xl);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+
+      &::before {
+        content: "⚠️";
+        font-size: var(--font-size-lg);
+      }
+    }
+  }
+
+  .modal-body {
+    margin-bottom: var(--spacing-lg);
+
+    .modal-message {
+      margin: 0;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      font-size: var(--font-size-base);
+    }
+  }
+
+  .modal-footer {
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--gray-200);
+    
+    .btn {
+      min-width: 100px;
+    }
+  }
+}
+
+/* Override Material Dialog styles */
+::ng-deep .mat-mdc-dialog-container {
+  border-radius: var(--radius-xl) !important;
+  box-shadow: var(--shadow-xl) !important;
+  
+  .mdc-dialog__surface {
+    border-radius: var(--radius-xl) !important;
+  }
+}
