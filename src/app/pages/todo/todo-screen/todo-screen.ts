@@ -1,6 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Todo } from '../services/todo';
 import { TodoModel, TodoOption } from '../models/todo.model';
+import { ConfirmationModal } from '../../../shared/components/confirmation-modal/confirmation-modal';
 
 @Component({
   selector: 'app-todo-screen',
@@ -11,6 +13,7 @@ import { TodoModel, TodoOption } from '../models/todo.model';
 export class TodoScreen implements OnInit {
 
   todoService = inject(Todo);
+  dialog = inject(MatDialog);
   userId: number = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!).id : 0;
   selectedTodo: TodoModel = {id: 0, todo: '', completed: false, userId: this.userId} as TodoModel;
   todos: TodoModel[] = [];
@@ -49,7 +52,8 @@ export class TodoScreen implements OnInit {
     const updatedTodo = {completed: true };
     this.todoService.completeTodo(updatedTodo, this.selectedTodo.id).subscribe({
       next: () => {
-        this.getTodos();
+        // this.getTodos();
+        todo.completed = true;
       }
     });
   }
@@ -66,12 +70,19 @@ export class TodoScreen implements OnInit {
   }
 
   deleteTodo(todo: TodoModel): void {
-    this.todoService.deleteTodo(todo.id).subscribe({
-      next: () => {
-        this.getTodos(); // Refresh the list after deletion
-      },
-      error: (error) => {
-        console.error('Error deleting todo:', error);
+    const dialogRef = this.dialog.open(ConfirmationModal, {
+      data: {
+        title: 'Delete Todo',
+        message: `Are you sure you want to delete "${todo.todo}"?`
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const index = this.todos.findIndex(t => t.id === todo.id);
+        if (index > -1) {
+          this.todos.splice(index, 1);
+        }
       }
     });
   }
@@ -83,27 +94,12 @@ export class TodoScreen implements OnInit {
   }
 
   addTodo(): void {
-  this.selectedTodo.id = 0;
-  this.selectedTodo.userId = this.userId
-
-    this.todoService.addTodo(this.selectedTodo).subscribe({
-      next: () => {
-        this.getTodos(); // Refresh the list after addition
-        this.selectedTodo = {} as TodoModel; // Clear the input
-      },
-      error: (error) => {
-        console.error('Error adding todo:', error);
-      }
-    });
-  }
-
-  // Handle todo reordering from drag-drop component
-  onTodoReordered(reorderedTodos: TodoModel[]): void {
-    console.log('Todos reordered:', reorderedTodos);
-    this.todos = reorderedTodos;
-    
-    // Optional: Save the new order to the backend
-    // this.todoService.updateTodoOrder(reorderedTodos).subscribe();
+    const newTodo: TodoModel = {
+      ...this.selectedTodo,
+      id: new Date().getTime(), // Temporary unique ID
+    };
+    this.todos.unshift(newTodo);
+    this.selectedTodo = {id: 0, todo: '', completed: false, userId: this.userId} as TodoModel;
   }
 
   // Handle edit todo from drag-drop component

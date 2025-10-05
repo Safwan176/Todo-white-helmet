@@ -45,7 +45,7 @@ export class TodoDrapDrop implements OnInit {
       );
       
       // Emit the completion event
-      this.outputCompleteTodo.emit(todo);
+      // this.outputCompleteTodo.emit(todo);
     }
   }
 

@@ -20,7 +20,7 @@ import { SharedModule } from './shared/shared.module';
 @NgModule({
   declarations: [
     App,
-    Header
+    Header,
   ],
   imports: [
     BrowserModule,

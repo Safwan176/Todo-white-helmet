@@ -29,6 +29,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ConfirmationModal } from './components/confirmation-modal/confirmation-modal';
 
 // CDK Modules
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -73,7 +74,7 @@ const materialModules = [
 ];
 
 @NgModule({
-  declarations: [Loader],
+  declarations: [Loader, ConfirmationModal],
   imports: [
     ...angularModules,
     ...materialModules
@@ -81,7 +82,8 @@ const materialModules = [
   exports: [
     ...angularModules,
     ...materialModules,
-    Loader
+    Loader,
+    ConfirmationModal
   ]
 })
 export class SharedModule { }
