@@ -15,6 +15,7 @@ import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
 import { Header } from './header/header';
 import { CoreModule } from './core/core-module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -33,8 +34,9 @@ import { CoreModule } from './core/core-module';
     MatIconModule,
     MatMenuModule,
     MatTooltipModule,
-    MatDividerModule
-  ],
+    MatDividerModule,
+    SharedModule
+],
   providers: [
     provideBrowserGlobalErrorListeners()
     // HTTP client is now provided by CoreModule with interceptors

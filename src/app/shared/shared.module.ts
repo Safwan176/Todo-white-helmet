@@ -32,6 +32,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 // CDK Modules
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { Loader } from './components/loader/loader';
 
 // Common Angular modules
 const angularModules = [
@@ -68,17 +69,19 @@ const materialModules = [
   MatChipsModule,
   MatAutocompleteModule,
   MatTooltipModule,
-  DragDropModule
+  DragDropModule,
 ];
 
 @NgModule({
+  declarations: [Loader],
   imports: [
     ...angularModules,
     ...materialModules
   ],
   exports: [
     ...angularModules,
-    ...materialModules
+    ...materialModules,
+    Loader
   ]
 })
 export class SharedModule { }
