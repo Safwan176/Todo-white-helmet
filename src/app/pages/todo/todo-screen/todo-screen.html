@@ -1,5 +1,5 @@
-<div class="todo-container" [class.loading-state]="isLoading">
-  <div class="header-section" [class.loading-overlay]="isLoading">
+<div class="todo-container">
+  <div class="header-section">
     <h2>My Todos</h2>
     <div class="header-actions">
       <!-- View Mode Toggle -->
@@ -7,7 +7,6 @@
         <button 
           class="btn btn-mode" 
           (click)="setViewMode(todoOption.TABLE)"
-          [disabled]="isLoading"
           title="Table View">
           <i class="fas fa-table"></i>
           Table
@@ -15,7 +14,6 @@
         <button 
           class="btn btn-mode" 
           (click)="setViewMode(todoOption.DRAG)"
-          [disabled]="isLoading"
           title="Drag & Drop View">
           <i class="fas fa-grip-vertical"></i>
           Drag & Drop
@@ -25,20 +23,15 @@
       <button 
         class="btn btn-secondary refresh-btn" 
         (click)="refreshTodos()"
-        [disabled]="isLoading"
         title="Refresh Todo List">
-        @if (isLoading) {
-          <i class="fas fa-spinner fa-spin"></i>
-        } @else {
           <i class="fas fa-sync-alt"></i>
-        }
         Refresh
       </button>
     </div>
   </div>
 
   <!-- Add Todo Section -->
-  <div class="add-todo-section" [class.loading-overlay]="isLoading">
+  <div class="add-todo-section">
     <div class="add-todo-card">
       <div class="add-todo-header">
         <i class="add-icon fas fa-plus"></i>
@@ -55,61 +48,35 @@
               class="todo-input"
               [(ngModel)]="selectedTodo.todo"
               (keypress)="onKeyPress($event)"
-              [disabled]="isLoading"
               maxlength="200">
           </div>
           <button 
             class="btn btn-primary add-btn" 
             (click)="addTodo()"
-            [disabled]="!selectedTodo.todo.trim() || isLoading">
-            @if (isLoading) {
-              <i class="btn-icon fas fa-spinner fa-spin"></i>
-            } @else {
+            [disabled]="!selectedTodo.todo.trim()">
               <i class="btn-icon fas fa-check"></i>
-            }
             Add Todo
           </button>
-        </div>
-        
-        <div class="input-footer">
-          <small class="character-count">
-            {{selectedTodo.todo.length || 0}}/200 characters
-          </small>
-          @if (selectedTodo.todo.trim()) {
-            <button 
-              class="btn btn-clear" 
-              (click)="clearInput()"
-              [disabled]="isLoading"
-              title="Clear input">
-              <i class="icon-close fas fa-times"></i>
-              Clear
-            </button>
-          }
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Todo List Section -->
- 
-    @switch(viewMode) {
-        @case (todoOption.TABLE) {
-      <!-- Table View -->
+  <!-- Todo Content -->
+  <div class="todo-content">
+    @if (viewMode === todoOption.TABLE) {
       <app-todo-table 
         [todos]="todos" 
         [columnNames]="columnNames"
-        [isLoading]="isLoading"
         (outputCompleteTodo)="completeTodo($event)"
         (outputDeleteTodo)="deleteTodo($event)">
       </app-todo-table>
-        }
-        @case (todoOption.DRAG) {
-          <app-todo-drap-drop 
-            [todos]="todos" 
-            [isLoading]="isLoading"
-            (outputCompleteTodo)="completeTodo($event)"
-            (outputDeleteTodo)="deleteTodo($event)">
-          </app-todo-drap-drop>
-        }
+    } @else {
+      <app-todo-drap-drop 
+        [todos]="todos"
+        (outputCompleteTodo)="completeTodo($event)"
+        (outputDeleteTodo)="deleteTodo($event)">
+      </app-todo-drap-drop>
     }
+  </div>
 </div>

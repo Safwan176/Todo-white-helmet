@@ -18,30 +18,24 @@ export class TodoScreen implements OnInit {
   todoOption = TodoOption;
   viewMode: TodoOption = TodoOption.TABLE;
   
-  // Single loading state for all operations
-  isLoading = false;
 
   ngOnInit(): void {
     this.getTodos();
   }
 
   getTodos(): void {
-    this.isLoading = true;
     this.todoService.getTodos().subscribe({
       next: (todos) => {
         this.todos = todos.todos as TodoModel[];
         this.selectedTodo.todo = ''; 
-        this.isLoading = false;
       },
       error: (error) => {
         console.error('Error fetching todos:', error);
-        this.isLoading = false;
       }
     });
   }
 
   refreshTodos(): void {
-    this.isLoading = true;
     this.getTodos();
   }
 
@@ -52,7 +46,6 @@ export class TodoScreen implements OnInit {
   completeTodo(todo: TodoModel): void {
     // TODO: Open edit dialog or navigate to edit form
     this.selectedTodo = todo;
-    this.isLoading = true;
     const updatedTodo = {completed: true };
     this.todoService.completeTodo(updatedTodo, this.selectedTodo.id).subscribe({
       next: () => {
@@ -73,14 +66,12 @@ export class TodoScreen implements OnInit {
   }
 
   deleteTodo(todo: TodoModel): void {
-    this.isLoading = true;
     this.todoService.deleteTodo(todo.id).subscribe({
       next: () => {
         this.getTodos(); // Refresh the list after deletion
       },
       error: (error) => {
         console.error('Error deleting todo:', error);
-        this.isLoading = false;
       }
     });
   }
@@ -92,7 +83,6 @@ export class TodoScreen implements OnInit {
   }
 
   addTodo(): void {
-    this.isLoading = true;
   this.selectedTodo.id = 0;
   this.selectedTodo.userId = this.userId
 
@@ -103,7 +93,6 @@ export class TodoScreen implements OnInit {
       },
       error: (error) => {
         console.error('Error adding todo:', error);
-        this.isLoading = false;
       }
     });
   }

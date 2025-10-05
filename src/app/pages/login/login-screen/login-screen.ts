@@ -14,7 +14,6 @@ import { LoginModel } from '../model/login.model';
 export class LoginScreen {
   loginForm: FormGroup;
   hidePassword = true;
-  isLoading = false;
   errorMessage = '';
 
   constructor(

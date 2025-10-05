@@ -10,7 +10,6 @@ import { TodoModel } from '../../models/todo.model';
 })
 export class TodoDrapDrop implements OnInit {
   @Input() todos: TodoModel[] = [];
-  @Input() isLoading: boolean = false;
   @Output() outputCompleteTodo = new EventEmitter<TodoModel>();
   @Output() outputDeleteTodo = new EventEmitter<TodoModel>();
 
@@ -58,6 +57,10 @@ export class TodoDrapDrop implements OnInit {
   markAsPending(todo: TodoModel): void {
     todo.completed = false;
     this.outputCompleteTodo.emit(todo);
+  }
+
+  deleteTodo(todo: TodoModel): void {
+    this.outputDeleteTodo.emit(todo);
   }
   
   
